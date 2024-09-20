@@ -4,7 +4,11 @@ import { GetStarted, HomeScreen, ImageDetails } from "./src/screens"
 import * as React from 'react';
 import { StatusBar } from "react-native";
 
-
+export type RootStackParamList = {
+  GetStarted: undefined;
+  Home: undefined;
+  ImageDetails: {image: string; title: string};
+};
 
 const App = () => {
   const Stack = createNativeStackNavigator()
@@ -15,7 +19,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
         headerShown: false
-      }} initialRouteName='GetStarted'>
+      }} initialRouteName='Home'>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="GetStarted" component={GetStarted} />
         <Stack.Screen name="ImageDetails" component={ImageDetails} />

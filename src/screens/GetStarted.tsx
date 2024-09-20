@@ -1,9 +1,18 @@
 import { View, Text, ImageBackground } from "react-native"
 import React from "react"
 import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 
 const GetStarted = () => {
+
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>()
+
+    const NavigateToHome = () => {
+        navigation.navigate('Home')
+    }
     return (
         <ImageBackground style={{ display: "flex", width: "100%", height: "100%" }} source={require('./assets/getstarted_img.jpg')} >
             <LinearGradient colors={['transparent', '#ffffff']}
