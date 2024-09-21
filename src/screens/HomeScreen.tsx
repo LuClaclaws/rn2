@@ -2,6 +2,9 @@ import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from 'react-
 import React, { useState } from 'react'
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import Feather from 'react-native-vector-icons/Feather'
+Feather
 import CustomBTN from './components/CustomBTN'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
@@ -38,8 +41,33 @@ const HomeScreen = () => {
 
     // handleGenerate
 
-    const handleGenerate = () => {
-        navigation.navigate('ImageDetails') // will handle it later
+    const handleGenerate = async () => {
+          // create a request to the backend...
+        
+    try {
+        const response = await fetch('http://10.0.2.2:4000/api/generate', { // replace it with 10.0.2.2
+          method: 'POST',
+          headers: {
+            // it doesn't giving good results because the headers..
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            prompt: text,
+            width: size.width,
+            height: size.height, 
+          }),
+        });
+        if (!response.ok) {
+          console.log('Error fetching DATA', response.status);
+        }
+        // if it's ok proceed, and set the data to response...
+        const data = await response.json();
+        console.log('Image generated: ', data);
+        navigation.navigate('ImageDetails', {image: data.data, title: text}); // will handle it later....
+      } catch (error) {
+        console.log('Error fetching data from the backend: ', error);
+      }
     }
     return (
         <ScrollView
@@ -72,7 +100,7 @@ const HomeScreen = () => {
             }}>
 
                 <Text style={{ color: 'black', fontSize: 20, lineHeight: 32, marginTop: 32, fontWeight: 'semibold' }}>
-                    Enter Prompt
+                    Enter Prompt 1111
                 </Text>
 
                 <TextInput
@@ -87,6 +115,16 @@ const HomeScreen = () => {
                         width: '100%', height: '70%'
                     }}
                 />
+
+                  <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                       <AntDesign name="reload1" size={26} color={'#4F33FC'} />
+                  <View 
+                       style={{display: 'flex', flexDirection: 'row', alignItems: 'center', rowGap: 12}}>
+                       <Text style={{fontSize: 12, fontWeight: 'semibold', color: 'gray'}}
+                       >{textLength}/100 </Text>
+                       <Feather name="x" size={23} color={'#4F33FC'} />
+                  </View>
+                  </View> 
 
           
             
@@ -178,34 +216,29 @@ type AspectRatioProps = {
 
 const AspectRatioData: AspectRatioProps[] = [
     {
-        width: 1080,
-        height: 1080,
-        ratio: '1:1'
+        width: 256,
+        height: 256,
+        ratio: '256:256'
     },
     {
-        width: 720,
-        height: 1280,
-        ratio: '9:16'
+        width: 512,
+        height: 512,
+        ratio: '512:512'
     },
     {
-        width: 1920,
-        height: 1080,
-        ratio: '16:9'
+        width: 1024,
+        height: 1024,
+        ratio: '1024:1024'
     },
     {
-        width: 720,
-        height: 480,
-        ratio: '3:2'
+        width: 1024,
+        height: 1792,
+        ratio: '4:7'
     },
     {
-        width: 800,
-        height: 400,
-        ratio: '4:2'
-    },
-    {
-        width: 1250,
-        height: 1000,
-        ratio: '5:4'
+        width: 1792,
+        height: 1024,
+        ratio: '7:4'
     },
 ]
 
