@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Image } from "react-native"
 import React, { useState } from 'react'
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, useRoute } from "@react-navigation/native"
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import CustomBTN from "./components/CustomBTN"
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6"
@@ -11,6 +11,8 @@ const ImageDetails = () => {
     const [selectedAction ,setSelectedAction] = useState<number>(controllersData[0].id)
 
     const navigation = useNavigation()
+    const route = useRoute()
+    const {image, title} = route.params as {image: string, title: string} // destructure the data from the routing....
     return (
         <View style={{ marginLeft: 16, marginRight: 16, backgroundColor: '#F7F7F7DA' }}>
             <View style={{ display: 'flex', flexDirection: 'row', marginBottom: 16, marginTop: 16, justifyContent: "space-between", alignItems: 'center' }}>
@@ -30,7 +32,7 @@ const ImageDetails = () => {
             {/* Image */}
             <View style={{ height: 240, paddingTop: 12, paddingBottom: 12, backgroundColor: "white", width: '100%' }}>
                 <Image
-                    source={{ uri: 'https://placehold.co/1920x1080/png' }}
+                    source={{ uri: image }}
                     style={{ width: '100%', height: '100%' }}
                     resizeMode='contain'
                 />
@@ -41,7 +43,7 @@ const ImageDetails = () => {
             {/* prompt */}
             <View style={{ width: '100%', paddingBottom: 16, paddingTop: 16, marginTop: 20, backgroundColor: 'white', borderRadius: 12 }}>
                 <Text style={{ color: 'black', paddingLeft: 8, paddingRight: 8, fontWeight: 'semibold', fontSize: 18, lineHeight: 28 }}>
-                    Your Latest Prompt
+                   {title}
                 </Text>
             </View>
 
